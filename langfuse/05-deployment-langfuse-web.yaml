@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: langfuse-web
+  namespace: langfuse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: langfuse-web
+  template:
+    metadata:
+      labels:
+        app: langfuse-web
+    spec:
+      containers:
+        - name: web
+          image: langfuse/langfuse:3
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: langfuse-config
+          env:
+            - name: LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY
+
+            - name: LANGFUSE_S3_MEDIA_UPLOAD_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: LANGFUSE_S3_MEDIA_UPLOAD_ACCESS_KEY_ID
+
+            - name: LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID
+
+            - name: CLICKHOUSE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: CLICKHOUSE_USER
+
+            - name: SALT
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: SALT
+
+            - name: CLICKHOUSE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: CLICKHOUSE_PASSWORD
+
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: DATABASE_URL
+
+            - name: LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY
+
+            - name: REDIS_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: REDIS_AUTH
+
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: ENCRYPTION_KEY
+
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: langfuse-secret
+                  key: NEXTAUTH_SECRET
