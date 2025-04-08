@@ -10,6 +10,8 @@ spec:
       app: langfuse-web
   template:
     metadata:
+      annotations:
+        configmap.langfuse.hash: "74f6d36a978c1bff234dd0252c80f8895f48f71d356eaca25edfd1673df6423d"
       labels:
         app: langfuse-web
     spec:
